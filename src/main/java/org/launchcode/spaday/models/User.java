@@ -1,9 +1,21 @@
 package org.launchcode.spaday.models;
 
+import javax.validation.constraints.*;
+
 public class User {
+    @NotBlank
+    @Size(min = 5, max = 15)
     private String username;
+
+    @Email
     private String email;
+
+    @NotBlank
+    @Size(min=6, max=20)
     private String password;
+
+    @NotNull(message="Passwords do not match")
+    private String verifyPassword;
 
     public User() {
 
@@ -15,6 +27,15 @@ public class User {
         this.email = email;
         this.password = password;
     }
+
+    private void checkPassword() {
+        if (password != verifyPassword) {
+            if (password != null && verifyPassword != null) {
+                verifyPassword = null;
+            }
+        }
+    }
+
 
     public String getUsername() {
         return username;
@@ -38,5 +59,16 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+        checkPassword();
     }
+
+    public String getVerifyPassword () {
+        return verifyPassword;
+    }
+
+    public void setVerifyPassword ( String verifyPassword ) {
+        this.verifyPassword = verifyPassword;
+        checkPassword();
+    }
+
 }
